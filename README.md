@@ -36,3 +36,16 @@ Le score est affiché à l'écran grâce à un objet **UI Text**. Ce texte est l
 ### Fonctionnement du calcul du score
 Le score est calculé avec la formule suivante : Score = (Niveau d'énergie - Nombre de collisions) + Nombre de murs restants
 Le score est affiché à chaque rafraîchissement du jeu pour donner un retour constant au joueur.
+
+## Système d'événements pour la fin du jeu
+
+Un système d'événements a été ajouté pour détecter la fin du jeu. Le jeu se termine si l'énergie du joueur atteint 0 ou si le joueur franchit la ligne d'arrivée. Lorsque l'un de ces événements se produit, l'événement `OnGameOver` est déclenché.
+
+### Fonctionnement
+- Lorsqu'une collision se produit ou lorsque le joueur franchit la ligne d'arrivée, la fin du jeu est déclenchée.
+- Le système d'événements utilise un événement `OnGameOver` pour notifier qu'il est temps de redémarrer le jeu.
+- Une fonction `RestartGame` a été ajoutée pour réinitialiser l'état du jeu (énergie, collisions, murs restants).
+
+### Comportement
+- Le script `ScoreManager` gère l'événement `OnGameOver`.
+- Le script `GameController` s'abonne et se désabonne à cet événement pour gérer la fin du jeu.

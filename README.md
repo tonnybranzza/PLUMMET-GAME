@@ -26,3 +26,13 @@ Les classes sont interconnectées comme suit :
 - **CameraPosition** assure un suivi en temps réel du joueur pendant la partie.
 
 Cette architecture permet de séparer clairement les responsabilités de chaque classe, facilitant ainsi l'entretien et l'évolution du projet.
+
+## Affichage du score dans le jeu
+
+Un système a été ajouté pour afficher le score du joueur en temps réel pendant l'exécution du jeu. Le score est calculé en fonction de l'énergie du joueur, du nombre de collisions et du nombre de murs restants, et il est mis à jour à chaque collision. 
+
+Le score est affiché à l'écran grâce à un objet **UI Text**. Ce texte est lié à un script `ScoreDisplay.cs`, qui récupère le score via le `ScoreManager` et l'affiche à chaque rafraîchissement de la scène dans le jeu. Le score est mis à jour en continu pendant le jeu, et il est visible par le joueur tout au long de l'expérience de jeu.
+
+### Fonctionnement du calcul du score
+Le score est calculé avec la formule suivante : Score = (Niveau d'énergie - Nombre de collisions) + Nombre de murs restants
+Le score est affiché à chaque rafraîchissement du jeu pour donner un retour constant au joueur.

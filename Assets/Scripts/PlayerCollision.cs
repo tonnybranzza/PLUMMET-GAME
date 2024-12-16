@@ -2,17 +2,21 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
-    // Quand le joueur entre en collision avec un objet
     private void OnCollisionEnter(Collision collision)
     {
-        // Vérifier si le joueur entre en collision avec un mur
         if (collision.gameObject.CompareTag("Wall"))
         {
-            // Appeler la méthode HandleCollision pour gérer la collision
-            ScoreManager.Instance.HandleCollision();
+            ScoreManager.Instance.HandleCollision(); // Utilise la méthode HandleCollision
+            Destroy(collision.gameObject); // Détruire le mur après collision
+        }
+    }
 
-            // Appeler la méthode DestroyWall pour détruire le mur
-            ScoreManager.Instance.DestroyWall(collision.gameObject);
+    private void Update()
+    {
+        // Exemple pour détecter si le joueur franchit la ligne d'arrivée
+        if (Input.GetKeyDown(KeyCode.F)) // Simule un franchissement avec la touche F
+        {
+            ScoreManager.Instance.PlayerCrossedFinishLine();
         }
     }
 }

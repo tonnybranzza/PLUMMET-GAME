@@ -1,30 +1,16 @@
+using System;
 using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    private int playerEnergy = 1000;
-    private int playerCollisions = 0;
-    private int remainingWalls = 10;
-
-    public int PlayerEnergy
-    {
-        get { return playerEnergy; }
-        set { playerEnergy = value; }
-    }
-
-    public int PlayerCollisions
-    {
-        get { return playerCollisions; }
-        set { playerCollisions = value; }
-    }
-
-    public int RemainingWalls
-    {
-        get { return remainingWalls; }
-        set { remainingWalls = value; }
-    }
-
     public static ScoreManager Instance;
+
+    public delegate void GameOverHandler();
+    public static event GameOverHandler OnGameOver;
+
+    public int PlayerEnergy { get; private set; } = 1000;
+    public int PlayerCollisions { get; private set; } = 0;
+    public int RemainingWalls { get; private set; } = 10;
 
     private void Awake()
     {
@@ -38,24 +24,26 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    // Méthode qui gère la collision avec un mur
     public void HandleCollision()
     {
-        playerEnergy -= 100;  // Exemple de réduction d'énergie
-        playerCollisions++;   // Incrémente les collisions
-        remainingWalls--;     // Réduit les murs restants
+        PlayerEnergy -= 100;
+        PlayerCollisions++;
+        RemainingWalls--;
+
+        if (PlayerEnergy <= 0)
+        {
+            TriggerGameOver();
+        }
     }
 
-    // Méthode pour détruire un mur
-    public void DestroyWall(GameObject wall)
+    public void PlayerCrossedFinishLine()
     {
-        // Vous pouvez appeler Destroy pour supprimer le mur de la scène
-        Destroy(wall);
-        remainingWalls--; // Décrémenter le nombre de murs restants
+        TriggerGameOver();
     }
 
-    public int CalculateScore()
+    private void TriggerGameOver()
     {
-        return (playerEnergy - playerCollisions) + remainingWalls;
+        OnGameOver?.Invoke(); // Déclenche l'événement si un abonné existe
+        Debug.Log("Game Over triggered!");
     }
 }
